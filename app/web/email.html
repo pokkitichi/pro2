@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>บัตรอักษรอิเล็กทรอนิกส์</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+	<style>
+   body {
+      position: relative; 
+  }
+  #section1 {padding-top:50px;height:500px;color: #fff; background-color: #696969;}
+ 
+
+  </style>
+</head>
+<body data-spy="scroll" data-target=".navbar" data-offset="50">
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="/menu">AE For LD</a>
+    </div>
+    <div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+           <li><a href="/users"><span class="glyphicon glyphicon-user">รายชื่อนักเรียน</span></a></li>
+          <li><a href="/sendemail"><span class="glyphicon glyphicon-share">Email</span></a></li>
+	  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-picture">เรียนรู้พยัญชนะไทยด้วยภาพ</span><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+           <li><a href="/pic1">ก ถ ฎ  ฏ ภ</a></li>
+	   <li><a href="/pic2">ข ฃ ช ซ</a></li>
+	   <li><a href="/pic3">ค ฅ ด ต ศ</a></li>
+	   <li><a href="/pic4">ฆ ง จ ฐ ม</a></li>
+   	   <li><a href="/pic5">ฌ ญ ฒ ณ</a></li>
+	   <li><a href="/pic6">ฉ ฑ ท น ห</a></li>
+	   <li><a href="/pic7">ผ ฝ พ ฟ ย ฬ</a></li>
+	   <li><a href="/pic8">ธ บ ป ร ษ</a></li>
+	   <li><a href="/pic9">ล ว ส อ ฮ</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">เรียนรู้พยัญชนะไทยด้วยตัวอักษร<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+           <li><a href="/text1">ก ถ ฎ  ฏ ภ</a></li>
+	   <li><a href="/text2">ข ฃ ช ซ</a></li>
+	   <li><a href="/text3">ค ฅ ด ต ศ</a></li>
+	   <li><a href="/text4">ฆ ง จ ฐ ม</a></li>
+   	   <li><a href="/text5">ฌ ญ ฒ ณ</a></li>
+	   <li><a href="/text6">ฉ ฑ ท น ห</a></li>
+	   <li><a href="/text7">ผ ฝ พ ฟ ย ฬ</a></li>
+	   <li><a href="/text8">ธ บ ป ร ษ</a></li>
+	   <li><a href="/text9">ล ว ส อ ฮ</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+</nav>    
+	<div id="section1" class="container-fluid">
+	   <form action="">
+		<br>
+	      <div>
+		<center>
+		<font color="blue"><input size="35" id="u-email"  placeholder="Enter E-mail where you want to send"></input></font>
+		</center>
+	      </div>
+	      <div>
+		<center>
+		<font color="blue">
+		<input size="35" id="u-title" placeholder="Write Subject"></input>
+		</font>
+		</center>
+	      </div>
+		
+	      <div>
+		<center>
+		<input type="submit" style="font-face:'Comic sans MS'; background-color:#0000ff;"></input>
+		<span id="message"></span>
+		</center>
+	      </div>
+	   </form>
+	</div>
+	
+    </body>
+	
+	<script>
+		var ue,ut;
+	   var socket = io();
+		$('form').submit(function(){
+		socket.emit('email click',$('#u-email').val());
+		ue=$('#u-email').val('');
+		socket.emit('title click',$('#u-title').val());
+		ut=$('#u-title').val('');
+		$("#message").text("Sending E-mail...");
+		return false;
+		
+	});
+	
+	
+	</script>
+</html>

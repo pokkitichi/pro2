@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+   <head>
+      <title>AEC</title>
+     <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	 <style>
+   body {
+      position: relative; 
+  }
+	#btn-circle {width: 70px; height: 70px;padding: 10px 16px;font-size: 24px; line-height:1.33;border-radius:35px;}
+  #section1 {padding-top:50px;height:500px;color: #fff; background-color: #1E88E5;}
+  #btn1,#btn14,#btn15,#btn32 {width:50px;height:50px;}
+  </style>
+    </head>
+    <body data-spy="scroll" data-target=".navbar" data-offset="50">
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>                        
+      </button>
+     <a class="navbar-brand" href="/menu">AE For LD</a>
+    </div>
+    <div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+           <li><a href="/users"><span class="glyphicon glyphicon-user">รายชื่อนักเรียน</span></a></li>
+          <li><a href="/sendemail"><span class="glyphicon glyphicon-share">Email</span></a></li>
+	  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-picture">เรียนรู้พยัญชนะไทยด้วยภาพ</span><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+           <li><a href="/pic1">ก ถ ฎ  ฏ ภ</a></li>
+	   <li><a href="/pic2">ข ฃ ช ซ</a></li>
+	   <li><a href="/pic3">ค ฅ ด ต ศ</a></li>
+	   <li><a href="/pic4">ฆ ง จ ฐ ม</a></li>
+   	   <li><a href="/pic5">ฌ ญ ฒ ณ</a></li>
+	   <li><a href="/pic6">ฉ ฑ ท น ห</a></li>
+	   <li><a href="/pic7">ผ ฝ พ ฟ ย ฬ</a></li>
+	   <li><a href="/pic8">ธ บ ป ร ษ</a></li>
+	   <li><a href="/pic9">ล ว ส อ ฮ</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">เรียนรู้พยัญชนะไทยด้วยตัวอักษร<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+           <li><a href="/text1">ก ถ ฎ  ฏ ภ</a></li>
+	   <li><a href="/text2">ข ฃ ช ซ</a></li>
+	   <li><a href="/text3">ค ฅ ด ต ศ</a></li>
+	   <li><a href="/text4">ฆ ง จ ฐ ม</a></li>
+   	   <li><a href="/text5">ฌ ญ ฒ ณ</a></li>
+	   <li><a href="/text6">ฉ ฑ ท น ห</a></li>
+	   <li><a href="/text7">ผ ฝ พ ฟ ย ฬ</a></li>
+	   <li><a href="/text8">ธ บ ป ร ษ</a></li>
+	   <li><a href="/text9">ล ว ส อ ฮ</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  
+</nav>    
+      
+
+
+	
+      <div id="section1" class="container">
+	<br>
+	 <br>
+	 <center>
+	<button class="btn btn-default" type="button" id="btn1" value="ก">ก</button>
+	<button class="btn btn-default" type="button" id="btn14" value="ฎ">ฎ</button>
+	<button class="btn btn-default" type="button" id="btn15" value="ฏ">ฏ</button>
+	<button class="btn btn-default" type="button" id="btn32" value="ภ">ภ</button>
+	 </center>
+	<hr>
+	<div>
+		<center>
+		<button type="button" class="btn btn-success" id="btn-circle" value="100"><p id="btn100">สุ่ม</p></button>
+		<button type="button" class="btn btn-danger" id="btn-circle" value="0"><p id="btnstop">หยุด</p></button>
+		</center>
+       	  </div>
+	<hr>
+		<div>
+		<table class="table table-bordered "id="mytbl" ALIGN="center">
+		<thead>
+		 <tr>
+		  <th>รายชื่อ</th>
+		  <th>ถูก</th>
+		  <th>ผิด</th>
+		 </tr>
+		</thead>
+		<tbody>
+		  <tr>
+		   <td id="userplay"></td>
+		   <td id="true"></td>
+		   <td id="false"></td>
+		  </tr>
+		</tbody>
+       		  </div>
+	</div>
+    </body>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<script>
+	
+	   var socket = io();
+		
+		$('#btn1').click(function(){
+		socket.emit('button click',$('#btn1').val());
+		$('#btn1').val('ก');
+		return false;
+	});
+	$('#btn14').click(function(){
+		socket.emit('button click',$('#btn14').val());
+		$('#btn14').val('ฎ');
+		return false;
+	});
+	$('#btn15').click(function(){
+		socket.emit('button click',$('#btn15').val());
+		$('#btn15').val('ฏ');
+		return false;
+	});
+	
+	$('#btn32').click(function(){
+		socket.emit('button click',$('#btn32').val());
+		$('#btn32').val('ภ');
+		return false;
+	});
+	socket.on('true show', function(msg){
+	  	 $('#true').html($('<center>').text(msg));
+		});
+		socket.on('false show', function(msg){
+	  	 $('#false').html($('<center>').text(msg));
+		});
+	socket.on('user test', function(msg){
+	  	 $('#userplay').html($('<center>').text(msg));
+		});
+	$('#btnstop').click(function(){
+		socket.emit('test click',$('#btnstop').val());
+		ue=$('#btnstop').val('0');
+	});
+	$('#btn100').click(function(){
+		socket.emit('button click',$('#btn100').val());
+		$('#btn100').val('100');
+		return false;
+	});
+	</script>
+</html>

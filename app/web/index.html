@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>AEC</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 450px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;} 
+    }
+  </style>
+</head>
+<body>
+
+
+  <div class="container-fluid">
+   <div class="bg-danger text-white">
+    <center>
+   <h4 id="ipadd"></h4>
+    </center>
+   </div>
+  </div>
+
+  
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-2 sidenav">
+      <h2>คะแนน</h2>
+      <h3>ตอบถูก</h3>
+      <div class="well">
+        <p id="true"></p>
+      </div>
+      <h3>ตอบผิด</h3>
+      <div class="well">
+        <p id="false"></p>
+      </div>
+    </div>
+
+    <div class="col-sm-8 text-left"> 
+      <div class="well">
+	<center>
+	<FONT SIZE=200>
+	<table width="250" height="140" id="mensajes">
+	</table>
+	</FONT>
+	</center>
+      </div>
+      <hr>
+      <div class="well">
+	<center>
+	<FONT SIZE=40>
+        <table width="100" height="100" id="userimg">
+	</table>
+	</FONT>
+	</center>
+      </div>
+	<center>
+	<h3 id="userplay"></h3>
+	</center>
+    </div>
+
+    <div class="col-sm-2 sidenav">
+      <h2>เวลา</h2>
+      <div class="well">
+        <p id="time"></p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+	<script>
+		var socket=io();
+		socket.on('addimage',function(msg,base64image){
+		$('#mensajes')
+		.html(
+			$('<center>').append($('<center>').text(msg),'<a target="_blank" href="'+ base64image +'"><img src="'+ base64image+'"/></a>'
+			)
+		);
+		});
+		socket.on('chat message', function(msg){
+	  	 $('#mensajes').html($('<center>').text(msg));
+		});
+		socket.on('chat message2', function(msg){
+	  	 $('#userimg').html($('<center>').text(msg));
+		});
+		socket.on('ipaddress', function(msg){
+	  	 $('#ipadd').html($('<center>').text(msg));
+		});
+		socket.on('user test', function(msg){
+	  	 $('#userplay').html($('<center>').text(msg));
+		});
+		socket.on('true show', function(msg){
+	  	 $('#true').html($('<center>').text(msg));
+		});
+		socket.on('false show', function(msg){
+	  	 $('#false').html($('<center>').text(msg));
+		});
+		socket.on('time count', function(msg){
+	  	 $('#time').html($('<center>').text(msg));
+		});
+	
+	</script>
+</html>

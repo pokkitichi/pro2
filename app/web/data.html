@@ -1,0 +1,214 @@
+<!doctype html>
+<html>
+   <head>
+      <title>AEC</title>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<style>
+   body {
+      position: relative; 
+  }
+	#btnstop {width: 70px; height: 70px;padding: 10px 16px;font-size: 24px; line-height:1.33;border-radius:35px;}
+  #section1 {background-color: #FFCCFF;}
+  #btn1,#btn14,#btn15,#btn22,#btn32 {width:50px;height:50px;}
+  </style>
+    </head>
+<body data-spy="scroll" data-target=".navbar" data-offset="50">
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="/menu">AE For LD</a>
+    </div>
+    <div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+           <li><a href="/users"><span class="glyphicon glyphicon-user">รายชื่อนักเรียน</span></a></li>
+          <li><a href="/sendemail"><span class="glyphicon glyphicon-share">Email</span></a></li>
+	  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-picture">เรียนรู้พยัญชนะไทยด้วยภาพ</span><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+           <li><a href="/pic1">ก ถ ฎ  ฏ ภ</a></li>
+	   <li><a href="/pic2">ข ฃ ช ซ</a></li>
+	   <li><a href="/pic3">ค ฅ ด ต ศ</a></li>
+	   <li><a href="/pic4">ฆ ง จ ฐ ม</a></li>
+   	   <li><a href="/pic5">ฌ ญ ฒ ณ</a></li>
+	   <li><a href="/pic6">ฉ ฑ ท น ห</a></li>
+	   <li><a href="/pic7">ผ ฝ พ ฟ ย ฬ</a></li>
+	   <li><a href="/pic8">ธ บ ป ร ษ</a></li>
+	   <li><a href="/pic9">ล ว ส อ ฮ</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">เรียนรู้พยัญชนะไทยด้วยตัวอักษร<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+            <li><a href="/text1">ก ถ ฎ  ฏ ภ</a></li>
+	   <li><a href="/text2">ข ฃ ช ซ</a></li>
+	   <li><a href="/text3">ค ฅ ด ต ศ</a></li>
+	   <li><a href="/text4">ฆ ง จ ฐ ม</a></li>
+   	   <li><a href="/text5">ฌ ญ ฒ ณ</a></li>
+	   <li><a href="/text6">ฉ ฑ ท น ห</a></li>
+	   <li><a href="/text7">ผ ฝ พ ฟ ย ฬ</a></li>
+	   <li><a href="/text8">ธ บ ป ร ษ</a></li>
+	   <li><a href="/text9">ล ว ส อ ฮ</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  
+</nav>     
+
+
+	<div id="section1" class="container">
+	   <table class="table table-striped "id="mytbl" ALIGN="center">
+		<thead>
+		 <tr>
+		  <th>รายชื่อ</th>
+		  <th>ทดสอบ</th>
+		 </tr>
+		</thead>
+		<tbody id="1true">
+		</tbody>
+	
+     <div>	
+      <form action="">
+	<br>
+	 <br>
+	<center><h2>รายชื่อนักเรียน</h2></center>
+	<input id="idname" placeholder="ใส่ชื่อ - นามสกุล"></input>
+	<input type="submit" id="btnupdate" class="btn btn-success" value="เพิ่ม"></input>
+	<input type="submit" id="btndelete" class="btn btn-danger" value="ลบ"></input>
+	</form>
+	
+     </div>
+     <div>
+	<center>
+     	<h3>สถานะ</h3>
+	<button class="btn btn-danger" id="btnstop" value="0">หยุด</button>
+	<p id='test'></p>
+	</center>
+     </div>
+    </div>
+    </body>
+	<script>
+	   var socket = io();
+		$('#btnupdate').click(function(){
+		socket.emit('update click',$('#idname').val());
+		ue=$('#idname').val('');
+	});
+		$('#btndelete').click(function(){
+		socket.emit('delete click',$('#btndelete').val());
+		ue=$('#btndelete').val('');
+	});
+		$('#btnstop').click(function(){
+		socket.emit('test click',$('#btnstop').val());
+		ue=$('#btnstop').val('0');
+	});
+		
+	var dmsq,flen;
+	var count=1;
+	socket.on('user name', function(msq){
+	dmsq=[msq]
+	flen=dmsq.length
+	var html=''
+	for(var i =0;i<flen;i++){
+	html += '<tr>'+'<td>'+'<li>' + [count]+'.'+dmsq +'</li>'+'</td>'+'<td>'+'<button onclick="my'+[count]+'Function()" class="btn btn-info" id="btntest'+[count]+'" value="'+[count]+'">'+'เริ่ม'+[count]+'</button>'+'</td>'+'</tr>'
+	
+	}
+	   $('#1true').append(html),count++;
+	});
+	socket.on('user test', function(msq){
+	$('#test').html($('<center>').text(msq));
+});
+	function my1Function(){
+		socket.emit('test click',$('#btntest1').val());
+		ue=$('#btntest1').val('1');
+}
+	function my2Function(){
+		socket.emit('test click',$('#btntest2').val());
+		ue=$('#btntest2').val('2');
+}
+	function my3Function(){
+		socket.emit('test click',$('#btntest3').val());
+		ue=$('#btntest3').val('3');
+}
+	function my4Function(){
+		socket.emit('test click',$('#btntest4').val());
+		ue=$('#btntest4').val('4');
+}
+	function my5Function(){
+		socket.emit('test click',$('#btntest5').val());
+		ue=$('#btntest5').val('5');
+}
+	function my6Function(){
+		socket.emit('test click',$('#btntest6').val());
+		ue=$('#btntest6').val('6');
+}
+	function my7Function(){
+		socket.emit('test click',$('#btntest7').val());
+		ue=$('#btntest7').val('7');
+}
+	function my8Function(){
+		socket.emit('test click',$('#btntest8').val());
+		ue=$('#btntest8').val('8');
+}
+	function my9Function(){
+		socket.emit('test click',$('#btntest9').val());
+		ue=$('#btntest9').val('9');
+}
+	function my10Function(){
+		socket.emit('test click',$('#btntest10').val());
+		ue=$('#btntest10').val('10');
+}
+	function my11Function(){
+		socket.emit('test click',$('#btntest11').val());
+		ue=$('#btntest11').val('11');
+}
+	function my12Function(){
+		socket.emit('test click',$('#btntest12').val());
+		ue=$('#btntest12').val('12');
+}
+	function my13Function(){
+		socket.emit('test click',$('#btntest13').val());
+		ue=$('#btntest13').val('13');
+}
+	function my14Function(){
+		socket.emit('test click',$('#btntest14').val());
+		ue=$('#btntest14').val('14');
+}
+	function my15Function(){
+		socket.emit('test click',$('#btntest15').val());
+		ue=$('#btntest15').val('15');
+}
+	function my16Function(){
+		socket.emit('test click',$('#btntest16').val());
+		ue=$('#btntest16').val('16');
+}
+	function my17Function(){
+		socket.emit('test click',$('#btntest17').val());
+		ue=$('#btntest17').val('17');
+}
+	function my18Function(){
+		socket.emit('test click',$('#btntest18').val());
+		ue=$('#btntest18').val('18');
+}
+	function my19Function(){
+		socket.emit('test click',$('#btntest19').val());
+		ue=$('#btntest19').val('19');
+}
+	function my20Function(){
+		socket.emit('test click',$('#btntest20').val());
+		ue=$('#btntest20').val('20');
+}
+		
+	</script>
+</html>

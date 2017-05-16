@@ -1,0 +1,19 @@
+{
+  "name": "myproject",
+  "version": "1.0.0",
+  "description": "Alphabet electronic for learning disabilities",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo\\\"Error: no test specified\"&&exit1"
+  },
+  "author": "Kitichai Paichayon <pokkitichai@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+	"express" :"^4.14.0",
+	"socket.io" : "^1.7.1",
+	"rpi-gpio" : "^0.7.0",
+	"html" : "^1.0.0",
+	"node-gyp" : "^3.4.0",
+	"player" : "^0.6.1"
+   }
+}

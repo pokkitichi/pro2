@@ -1,0 +1,81 @@
+ <div id="section1" class="container">
+	<br>
+	 <br>
+	<center>
+	<button class="btn btn-default" type="button" id="btn9" value="ฉ">ฉ</button>
+	<button class="btn btn-default" type="button" id="btn17" value="ฑ">ฑ</button>
+	<button class="btn btn-default" type="button" id="btn23" value="ท">ท</button>
+	<button class="btn btn-default" type="button" id="btn25" value="น">น</button>
+	<button class="btn btn-default" type="button" id="btn41" value="ห">ห</button>
+	</center>
+	<hr>
+	<div>
+		<center>
+		<button type="button" class="btn btn-success" id="btn-circle" value="100"><p id="btn100">สุ่ม</p></button>
+		<button type="button" class="btn btn-danger" id="btn-circle" value="0"><p id="btnstop">หยุด</p></button>
+		</center>
+       	  </div>
+	<hr>
+		<div>
+		<table class="table table-bordered "id="mytbl" ALIGN="center">
+		<thead>
+		 <tr>
+		  <th>รายชื่อ</th>
+		  <th>ถูก</th>
+		  <th>ผิด</th>
+		 </tr>
+		</thead>
+		<tbody>
+		  <tr>
+		   <td id="userplay"></td>
+		   <td id="true"></td>
+		   <td id="false"></td>
+		  </tr>
+		</tbody>
+       		  </div>	
+	</div>
+
+
+
+		$('#btn9').click(function(){
+		socket.emit('button click',$('#btn9').val());
+		$('#btn9').val('ฉ');
+		return false;
+	});
+	
+	$('#btn17').click(function(){
+		socket.emit('button click',$('#btn17').val());
+		$('#btn17').val('ฑ');
+		return false;
+	});
+	
+	$('#btn23').click(function(){
+		socket.emit('button click',$('#btn23').val());
+		$('#btn23').val('ท');
+		return false;
+	});
+	
+	$('#btn25').click(function(){
+		socket.emit('button click',$('#btn25').val());
+		$('#btn25').val('น');
+		return false;
+	}); 
+	
+	$('#btn41').click(function(){
+		socket.emit('button click',$('#btn41').val());
+		$('#btn41').val('ห');
+		return false;
+	});
+	socket.on('true show', function(msg){
+	  	 $('#true').html($('<center>').text(msg));
+		});
+		socket.on('false show', function(msg){
+	  	 $('#false').html($('<center>').text(msg));
+		});
+	socket.on('user test', function(msg){
+	  	 $('#userplay').html($('<center>').text(msg));
+		});
+	$('#btnstop').click(function(){
+		socket.emit('test click',$('#btnstop').val());
+		ue=$('#btnstop').val('0');
+	});
